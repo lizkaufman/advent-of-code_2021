@@ -7,7 +7,7 @@ const {
   convertBinary,
 } = require("../day03/index");
 
-test("calculatePowerConsumption with example data returns 198", () => {
+test.only("calculatePowerConsumption with example data returns 198", () => {
   const expected = 198;
   const actual = calculatePowerConsumption(example);
   expect(actual).toBe(expected);

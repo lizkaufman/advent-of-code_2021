@@ -11,34 +11,35 @@ const { data } = require("./data.js");
     - At end, compare obj.values - if total > half of data.length, 1 and > half, 1 to make digits of gamma
 - Calculate epsilon by taking each digit of gamma and creating a new number with each digit opposite (0 becomes 1 and vice versa)
 - Convert epsilon and gamma from binary to regular numbers 
-    - 
+    - Split binary into digits and reverse
+    - Loop thru reversed digits
+    - At each digit, multiply the digit by 2 to power of i, and add product to decimal
+    - Return decimal
 - Return epsilon*gamma
 */
 
 function calculatePowerConsumption(numbers) {
-  const gamma = convertBinary(calculateGamma(numbers));
-  const epsilon = convertBinary(calculateEpsilon(gamma));
-  return gamma * epsilon;
+  const gamma = calculateGamma(numbers);
+  const epsilon = calculateEpsilon(gamma);
+  return convertBinary(gamma) * convertBinary(epsilon);
 }
 
 function calculateGamma(numbers) {
-  const onesCounts = numbers.reduce(
-    (acc, cur) => {
-      for (let i = 0; i < cur.length; i++) {
-        if (cur[i] == 1) {
-          acc = { ...acc, [i + 1]: acc[i + 1] + 1 };
-        }
+  let totalDigits = numbers[0].length;
+  let initialReduceValue = [];
+  while (totalDigits > 0) {
+    initialReduceValue = { ...initialReduceValue, [totalDigits]: 0 };
+    totalDigits -= 1;
+  }
+
+  const onesCounts = numbers.reduce((acc, cur) => {
+    for (let i = 0; i < cur.length; i++) {
+      if (cur[i] == 1) {
+        acc = { ...acc, [i + 1]: acc[i + 1] + 1 };
       }
-      return acc;
-    },
-    {
-      1: 0,
-      2: 0,
-      3: 0,
-      4: 0,
-      5: 0,
     }
-  );
+    return acc;
+  }, initialReduceValue);
 
   const gammaDigits = [];
   for (const count in onesCounts) {
@@ -56,7 +57,14 @@ function calculateEpsilon(gamma) {
     .join("");
 }
 
-function convertBinary(binaryNumber) {}
+function convertBinary(binary) {
+  const reverseDigits = binary.split("").reverse();
+  return reverseDigits.reduce((acc, cur, i) => {
+    return cur * 2 ** i + acc;
+  }, 0);
+}
+
+// console.log("answer: ", calculatePowerConsumption(data));
 
 // PART TWO:
 
