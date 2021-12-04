@@ -19,9 +19,6 @@ function countDepthIncrease(measurementsList) {
   return totalDepthIncreases;
 }
 
-const partOneAnswer = countDepthIncrease(data);
-console.log(partOneAnswer);
-
 // PART TWO:
 
 /*
@@ -46,8 +43,5 @@ function countSlidingWIndowDepthIncrease(measurementsList) {
   }
   return totalDepthIncreases;
 }
-
-const partTwoAnswer = countSlidingWIndowDepthIncrease(data);
-console.log(partTwoAnswer);
 
 module.exports = { countDepthIncrease, countSlidingWIndowDepthIncrease };

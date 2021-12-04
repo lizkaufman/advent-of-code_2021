@@ -1,9 +1,9 @@
 const { test, expect } = require("@jest/globals");
-const { example } = require("../01/data");
+const { example } = require("../day01/data");
 const {
   countDepthIncrease,
   countSlidingWIndowDepthIncrease,
-} = require("../01/index");
+} = require("../day01/index");
 
 test("When run with example data, countDepthIncreases should return 7", () => {
   const expected = 7;
