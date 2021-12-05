@@ -66,7 +66,6 @@ function calculateLifeSupport(numbers) {
 }
 
 function calculateOxygen(numbers) {
-  // Sorts out the numbers that have the most common bit in place 1:
   const onesCounts = countBits(numbers, 1);
 
   const mostCommonDigits = [];
@@ -81,13 +80,12 @@ function calculateOxygen(numbers) {
     (number) => number.charAt(0) == mostCommonDigits[0]
   );
 
-  // Tracks which digit the loop is currently on (-1 b/c first digit dealt w/ above!):
   let currentDigit = numbers[0].length - 1;
 
-  // Uses currentDigit to track during recalculating most common bits for each digit and narrowing down numbers each time:
   while (currentDigit > 0) {
+    //NOTE: There's undoubtedly a more efficient way to write this while loop instead of counting every bit in every number in keptNumbers, but I've spent too darn long on this already... 😅
+
     const updatedOnesCounts = countBits(keptNumbers, 1);
-    // console.log({ updatedOnesCounts });
 
     const mostCommonDigits = [];
 
@@ -96,14 +94,12 @@ function calculateOxygen(numbers) {
         ? mostCommonDigits.push(1)
         : mostCommonDigits.push(0);
     }
-    // console.log({ mostCommonDigits });
 
     keptNumbers = keptNumbers.filter(
       (number) =>
         number.charAt(number.length - currentDigit) ==
         mostCommonDigits[number.length - currentDigit]
     );
-    console.log(keptNumbers.length);
     currentDigit--;
   }
 
@@ -111,37 +107,47 @@ function calculateOxygen(numbers) {
 }
 
 function calculateCo2(numbers) {
-  //NOTE: Lots of repeated code from calculateOxygen here! I could probably refactor to abstract away some into more helper functions.
-
   const onesCounts = countBits(numbers, 1);
 
-  const mostCommonDigits = [];
+  const leastCommonDigits = [];
 
   for (const count in onesCounts) {
     onesCounts[count] <= numbers.length / 2
-      ? mostCommonDigits.push(1)
-      : mostCommonDigits.push(0);
+      ? leastCommonDigits.push(1)
+      : leastCommonDigits.push(0);
   }
 
   let keptNumbers = numbers.filter(
-    (number) => number.charAt(0) == mostCommonDigits[0]
+    (number) => number.charAt(0) == leastCommonDigits[0]
   );
+  console.log({ keptNumbers, length: keptNumbers.length });
 
-  for (let i = 1; i < mostCommonDigits.length; i++) {
-    if (keptNumbers.length === 1) {
-      break;
+  let currentDigit = numbers[0].length - 1;
+
+  while (currentDigit > 0) {
+    //NOTE: There's undoubtedly a more efficient way to write this while loop instead of counting every bit in every number in keptNumbers, but I've spent too darn long on this already... 😅
+
+    const updatedOnesCounts = countBits(keptNumbers, 1);
+
+    const leastCommonDigits = [];
+
+    for (const count in updatedOnesCounts) {
+      // console.log(count, updatedOnesCounts[count] <= keptNumbers.length / 2);
+      updatedOnesCounts[count] <= keptNumbers.length / 2
+        ? leastCommonDigits.push(1)
+        : leastCommonDigits.push(0);
     }
+    console.log({ updatedOnesCounts, leastCommonDigits });
 
-    const matchingNumbers = keptNumbers.filter(
-      (number) => number.charAt(i) == mostCommonDigits[i]
+    keptNumbers = keptNumbers.filter(
+      (number) =>
+        number.charAt(number.length - currentDigit) ==
+        leastCommonDigits[number.length - currentDigit]
     );
-
-    if (matchingNumbers.length === keptNumbers.length / 2) {
-      keptNumbers = keptNumbers.filter((number) => number.charAt(i) == 0);
-      continue;
-    }
-    keptNumbers = matchingNumbers;
+    console.log({ keptNumbers, length: keptNumbers.length });
+    currentDigit--;
   }
+
   return keptNumbers[0];
 }
 
