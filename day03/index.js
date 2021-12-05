@@ -85,30 +85,28 @@ function calculateOxygen(numbers) {
   let currentDigit = numbers[0].length - 1;
 
   // Uses currentDigit to track during recalculating most common bits for each digit and narrowing down numbers each time:
-
   while (currentDigit > 0) {
-    console.log(currentDigit);
+    const updatedOnesCounts = countBits(keptNumbers, 1);
+    // console.log({ updatedOnesCounts });
+
+    const mostCommonDigits = [];
+
+    for (const count in updatedOnesCounts) {
+      updatedOnesCounts[count] >= keptNumbers.length / 2
+        ? mostCommonDigits.push(1)
+        : mostCommonDigits.push(0);
+    }
+    // console.log({ mostCommonDigits });
+
+    keptNumbers = keptNumbers.filter(
+      (number) =>
+        number.charAt(number.length - currentDigit) ==
+        mostCommonDigits[number.length - currentDigit]
+    );
+    console.log(keptNumbers.length);
     currentDigit--;
   }
 
-  //💀 ----OLD CODE - DELETE BELOW HERE WHEN DONE!----- 💀
-  // for (let i = 1; i < mostCommonDigits.length; i++) {
-  //   if (keptNumbers.length === 1) {
-  //     break;
-  //   }
-
-  //   const matchingNumbers = keptNumbers.filter(
-  //     (number) => number.charAt(i) == mostCommonDigits[i]
-  //   );
-
-  //   if (matchingNumbers.length === keptNumbers.length / 2) {
-  //     keptNumbers = keptNumbers.filter((number) => number.charAt(i) == 1);
-  //     continue;
-  //   }
-  //   keptNumbers = matchingNumbers;
-  //   console.log(`${matchingNumbers.length} at position ${i + 1}`);
-  //   console.log(keptNumbers);
-  // }
   return keptNumbers[0];
 }
 

@@ -50,7 +50,7 @@ test("calculateLifeSupport with example data returns 230", () => {
   expect(actual).toBe(expected);
 });
 
-test("calculateOxygen with example data returns 10111", () => {
+test.only("calculateOxygen with example data returns 10111", () => {
   const expected = "10111";
   const actual = calculateOxygen(example);
   expect(actual).toBe(expected);
@@ -62,7 +62,7 @@ test("calculateCo2 with example data returns 01010", () => {
   expect(actual).toBe(expected);
 });
 
-test.only("calculateOxygen with actual data does not return undefined", () => {
+test("calculateOxygen with actual data does not return undefined", () => {
   const actual = calculateOxygen(data);
   console.log({ actual });
   expect(actual).not.toBeUndefined();
