@@ -5,9 +5,14 @@ const {
   calculateGamma,
   calculateEpsilon,
   convertBinary,
+  calculateOxygen,
+  calculateCo2,
+  calculateLifeSupport,
 } = require("../day03/index");
 
-test.only("calculatePowerConsumption with example data returns 198", () => {
+// PART ONE:
+
+test("calculatePowerConsumption with example data returns 198", () => {
   const expected = 198;
   const actual = calculatePowerConsumption(example);
   expect(actual).toBe(expected);
@@ -37,11 +42,25 @@ test("convertBinary converts 01001 to 9", () => {
   expect(actual).toBe(expected);
 });
 
-test("", () => {});
+//PART TWO:
 
-test("", () => {});
+test("calculateLifeSupport with example data returns 230", () => {
+  const expected = 230;
+  const actual = calculateLifeSupport(example);
+  expect(actual).toBe(expected);
+});
 
-test("", () => {});
+test.only("calculateOxygen with example data returns 10111", () => {
+  const expected = "10111";
+  const actual = calculateOxygen(example);
+  expect(actual).toBe(expected);
+});
+
+test("calculateCo2 with example data returns 01010", () => {
+  const expected = "01010";
+  const actual = calculateCo2(example);
+  expect(actual).toBe(expected);
+});
 
 test("", () => {});
 

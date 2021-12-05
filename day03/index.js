@@ -25,21 +25,7 @@ function calculatePowerConsumption(numbers) {
 }
 
 function calculateGamma(numbers) {
-  let totalDigits = numbers[0].length;
-  let initialReduceValue = [];
-  while (totalDigits > 0) {
-    initialReduceValue = { ...initialReduceValue, [totalDigits]: 0 };
-    totalDigits -= 1;
-  }
-
-  const onesCounts = numbers.reduce((acc, cur) => {
-    for (let i = 0; i < cur.length; i++) {
-      if (cur[i] == 1) {
-        acc = { ...acc, [i + 1]: acc[i + 1] + 1 };
-      }
-    }
-    return acc;
-  }, initialReduceValue);
+  const onesCounts = countBits(numbers, 1);
 
   const gammaDigits = [];
   for (const count in onesCounts) {
@@ -57,6 +43,60 @@ function calculateEpsilon(gamma) {
     .join("");
 }
 
+// console.log("answer: ", calculatePowerConsumption(data));
+
+// PART TWO:
+
+/*
+- oxygen:
+- Use helper fns above to create digit count object
+- Filter array accordingly for each digit place 
+- Keep only numbers with most common bit in each digit place
+- co2:
+- Use helper fns above to create digit count object
+- Filter array accordingly for each digit place 
+- Keep only numbers with least common bit in each digit place
+*/
+
+function calculateLifeSupport(numbers) {
+  const oxygen = calculateOxygen(numbers);
+  const co2 = calculateCo2(numbers);
+  return convertBinary(oxygen) * convertBinary(co2);
+}
+
+function calculateOxygen(numbers) {
+  const onesCounts = countBits(numbers, 1);
+  console.log(onesCounts);
+}
+
+function calculateCo2(numbers) {}
+
+// HELPER FUNCTIONS:
+
+//Counts the frequency of either 0 or 1 bit in each digit place in an array of binaries and returns obj with numbered keys and totals for each digit:
+function countBits(numbers, bitToCount) {
+  return numbers.reduce((acc, cur) => {
+    for (let i = 0; i < cur.length; i++) {
+      if (cur[i] == bitToCount) {
+        acc = { ...acc, [i + 1]: acc[i + 1] + 1 };
+      }
+    }
+    return acc;
+  }, createDigitsCountObject(numbers[0]));
+}
+
+//Creates an object with numbered keys for each digit place (and initial values of 0):
+function createDigitsCountObject(number) {
+  let totalDigits = number.length;
+  let initialReduceValue = [];
+  while (totalDigits > 0) {
+    initialReduceValue = { ...initialReduceValue, [totalDigits]: 0 };
+    totalDigits -= 1;
+  }
+  return initialReduceValue;
+}
+
+//Converts binary to decimal:
 function convertBinary(binary) {
   const reverseDigits = binary.split("").reverse();
   return reverseDigits.reduce((acc, cur, i) => {
@@ -64,17 +104,12 @@ function convertBinary(binary) {
   }, 0);
 }
 
-// console.log("answer: ", calculatePowerConsumption(data));
-
-// PART TWO:
-
-/*
-- 
-*/
-
 module.exports = {
   calculatePowerConsumption,
   calculateGamma,
   calculateEpsilon,
   convertBinary,
+  calculateOxygen,
+  calculateCo2,
+  calculateLifeSupport,
 };
