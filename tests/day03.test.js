@@ -1,5 +1,5 @@
 const { test, expect } = require("@jest/globals");
-const { example } = require("../day03/data");
+const { example, data } = require("../day03/data");
 const {
   calculatePowerConsumption,
   calculateGamma,
@@ -56,14 +56,14 @@ test("calculateOxygen with example data returns 10111", () => {
   expect(actual).toBe(expected);
 });
 
-test.only("calculateCo2 with example data returns 01010", () => {
+test("calculateCo2 with example data returns 01010", () => {
   const expected = "01010";
   const actual = calculateCo2(example);
   expect(actual).toBe(expected);
 });
 
-test("", () => {});
-
-test("", () => {});
-
-test("", () => {});
+test.only("calculateOxygen with actual data does not return undefined", () => {
+  const actual = calculateOxygen(data);
+  console.log({ actual });
+  expect(actual).not.toBeUndefined();
+});

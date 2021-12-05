@@ -61,10 +61,12 @@ function calculateEpsilon(gamma) {
 function calculateLifeSupport(numbers) {
   const oxygen = calculateOxygen(numbers);
   const co2 = calculateCo2(numbers);
+  console.log({ oxygen, co2 });
   return convertBinary(oxygen) * convertBinary(co2);
 }
 
 function calculateOxygen(numbers) {
+  // Sorts out the numbers that have the most common bit in place 1:
   const onesCounts = countBits(numbers, 1);
 
   const mostCommonDigits = [];
@@ -79,25 +81,40 @@ function calculateOxygen(numbers) {
     (number) => number.charAt(0) == mostCommonDigits[0]
   );
 
-  for (let i = 1; i < mostCommonDigits.length; i++) {
-    if (keptNumbers.length === 1) {
-      break;
-    }
+  // Tracks which digit the loop is currently on (-1 b/c first digit dealt w/ above!):
+  let currentDigit = numbers[0].length - 1;
 
-    const matchingNumbers = keptNumbers.filter(
-      (number) => number.charAt(i) == mostCommonDigits[i]
-    );
+  // Uses currentDigit to track during recalculating most common bits for each digit and narrowing down numbers each time:
 
-    if (matchingNumbers.length === keptNumbers.length / 2) {
-      keptNumbers = keptNumbers.filter((number) => number.charAt(i) == 1);
-      continue;
-    }
-    keptNumbers = matchingNumbers;
+  while (currentDigit > 0) {
+    console.log(currentDigit);
+    currentDigit--;
   }
+
+  //💀 ----OLD CODE - DELETE BELOW HERE WHEN DONE!----- 💀
+  // for (let i = 1; i < mostCommonDigits.length; i++) {
+  //   if (keptNumbers.length === 1) {
+  //     break;
+  //   }
+
+  //   const matchingNumbers = keptNumbers.filter(
+  //     (number) => number.charAt(i) == mostCommonDigits[i]
+  //   );
+
+  //   if (matchingNumbers.length === keptNumbers.length / 2) {
+  //     keptNumbers = keptNumbers.filter((number) => number.charAt(i) == 1);
+  //     continue;
+  //   }
+  //   keptNumbers = matchingNumbers;
+  //   console.log(`${matchingNumbers.length} at position ${i + 1}`);
+  //   console.log(keptNumbers);
+  // }
   return keptNumbers[0];
 }
 
 function calculateCo2(numbers) {
+  //NOTE: Lots of repeated code from calculateOxygen here! I could probably refactor to abstract away some into more helper functions.
+
   const onesCounts = countBits(numbers, 1);
 
   const mostCommonDigits = [];
@@ -129,6 +146,8 @@ function calculateCo2(numbers) {
   }
   return keptNumbers[0];
 }
+
+// console.log(calculateLifeSupport(data));
 
 // HELPER FUNCTIONS:
 
