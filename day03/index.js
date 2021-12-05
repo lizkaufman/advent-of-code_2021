@@ -49,13 +49,13 @@ function calculateEpsilon(gamma) {
 
 /*
 - oxygen:
-- Use helper fns above to create digit count object
-- Filter array accordingly for each digit place 
-- Keep only numbers with most common bit in each digit place
+  - Use helper fns above to create digit count object
+  - Filter array accordingly for each digit place 
+  - Keep only number with most common bit in each digit place
 - co2:
-- Use helper fns above to create digit count object
-- Filter array accordingly for each digit place 
-- Keep only numbers with least common bit in each digit place
+  - Use helper fns above to create digit count object
+  - Filter array accordingly for each digit place 
+  - Keep only number with least common bit in each digit place
 */
 
 function calculateLifeSupport(numbers) {
@@ -66,10 +66,69 @@ function calculateLifeSupport(numbers) {
 
 function calculateOxygen(numbers) {
   const onesCounts = countBits(numbers, 1);
-  console.log(onesCounts);
+
+  const mostCommonDigits = [];
+
+  for (const count in onesCounts) {
+    onesCounts[count] >= numbers.length / 2
+      ? mostCommonDigits.push(1)
+      : mostCommonDigits.push(0);
+  }
+
+  let keptNumbers = numbers.filter(
+    (number) => number.charAt(0) == mostCommonDigits[0]
+  );
+
+  for (let i = 1; i < mostCommonDigits.length; i++) {
+    if (keptNumbers.length === 1) {
+      break;
+    }
+
+    const matchingNumbers = keptNumbers.filter(
+      (number) => number.charAt(i) == mostCommonDigits[i]
+    );
+
+    if (matchingNumbers.length === keptNumbers.length / 2) {
+      keptNumbers = keptNumbers.filter((number) => number.charAt(i) == 1);
+      continue;
+    }
+    keptNumbers = matchingNumbers;
+  }
+  return keptNumbers[0];
 }
 
-function calculateCo2(numbers) {}
+function calculateCo2(numbers) {
+  const onesCounts = countBits(numbers, 1);
+
+  const mostCommonDigits = [];
+
+  for (const count in onesCounts) {
+    onesCounts[count] <= numbers.length / 2
+      ? mostCommonDigits.push(1)
+      : mostCommonDigits.push(0);
+  }
+
+  let keptNumbers = numbers.filter(
+    (number) => number.charAt(0) == mostCommonDigits[0]
+  );
+
+  for (let i = 1; i < mostCommonDigits.length; i++) {
+    if (keptNumbers.length === 1) {
+      break;
+    }
+
+    const matchingNumbers = keptNumbers.filter(
+      (number) => number.charAt(i) == mostCommonDigits[i]
+    );
+
+    if (matchingNumbers.length === keptNumbers.length / 2) {
+      keptNumbers = keptNumbers.filter((number) => number.charAt(i) == 0);
+      continue;
+    }
+    keptNumbers = matchingNumbers;
+  }
+  return keptNumbers[0];
+}
 
 // HELPER FUNCTIONS:
 

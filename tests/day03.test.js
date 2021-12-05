@@ -50,13 +50,13 @@ test("calculateLifeSupport with example data returns 230", () => {
   expect(actual).toBe(expected);
 });
 
-test.only("calculateOxygen with example data returns 10111", () => {
+test("calculateOxygen with example data returns 10111", () => {
   const expected = "10111";
   const actual = calculateOxygen(example);
   expect(actual).toBe(expected);
 });
 
-test("calculateCo2 with example data returns 01010", () => {
+test.only("calculateCo2 with example data returns 01010", () => {
   const expected = "01010";
   const actual = calculateCo2(example);
   expect(actual).toBe(expected);
